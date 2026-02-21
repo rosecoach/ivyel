@@ -1,0 +1,1400 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Elingo — IVY·EL 학습 앱</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Noto+Serif+KR:wght@300;400;600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream: #FAF6F0;
+  --warm: #FDF9F4;
+  --sage: #8A9E8C;
+  --sage-light: #C5D4C6;
+  --rose: #C4998A;
+  --rose-light: #E8D0C8;
+  --gold: #C9A96E;
+  --gold-light: #EDD9B0;
+  --charcoal: #2C2C2C;
+  --gray: #6B6B6B;
+  --light: #E8E4DF;
+  --navy: #2D3A4A;
+  --success: #7BAE7F;
+  --warning: #E5A847;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+html, body { height:100%; overflow:hidden; }
+
+body {
+  background: var(--cream);
+  font-family: 'DM Sans', 'Noto Serif KR', sans-serif;
+  color: var(--charcoal);
+  display: flex;
+  flex-direction: column;
+  max-width: 430px;
+  margin: 0 auto;
+  position: relative;
+  box-shadow: 0 0 60px rgba(0,0,0,0.12);
+}
+
+/* ── LOGIN ── */
+#loginScreen {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 2rem;
+  background: linear-gradient(160deg, var(--cream) 0%, #F0E8DC 100%);
+}
+
+.login-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.8rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.3rem;
+}
+.login-logo span { color: var(--gold); }
+
+.login-sub {
+  font-size: 0.78rem;
+  color: var(--gray);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 3rem;
+}
+
+.role-select {
+  width: 100%;
+  margin-bottom: 2rem;
+}
+
+.role-label {
+  font-size: 0.75rem;
+  color: var(--gray);
+  margin-bottom: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.role-btns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.8rem;
+}
+
+.role-btn {
+  padding: 1rem;
+  border-radius: 16px;
+  border: 2px solid var(--light);
+  background: var(--warm);
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.2s;
+}
+
+.role-btn.active {
+  border-color: var(--gold);
+  background: var(--gold-light);
+}
+
+.role-btn .role-icon { font-size: 1.6rem; display: block; margin-bottom: 0.3rem; }
+.role-btn .role-name { font-size: 0.82rem; font-weight: 500; }
+
+.login-form { width: 100%; }
+
+.l-input {
+  width: 100%;
+  background: var(--warm);
+  border: 1.5px solid var(--light);
+  border-radius: 12px;
+  padding: 0.85rem 1rem;
+  font-size: 0.9rem;
+  font-family: 'DM Sans', sans-serif;
+  outline: none;
+  margin-bottom: 0.8rem;
+  transition: border-color 0.2s;
+}
+.l-input:focus { border-color: var(--rose); }
+
+.login-btn {
+  width: 100%;
+  background: var(--charcoal);
+  color: var(--cream);
+  border: none;
+  border-radius: 100px;
+  padding: 1rem;
+  font-size: 0.9rem;
+  font-family: 'DM Sans', sans-serif;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-top: 0.4rem;
+}
+.login-btn:hover { background: var(--rose); }
+
+/* ── MAIN APP ── */
+#app { display:none; flex-direction:column; height:100%; }
+#app.show { display:flex; }
+
+/* TOP BAR */
+.topbar {
+  background: var(--warm);
+  border-bottom: 1px solid var(--light);
+  padding: 1rem 1.2rem 0.8rem;
+  flex-shrink: 0;
+}
+
+.topbar-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.topbar-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+.topbar-logo span { color: var(--gold); }
+
+.topbar-user {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.avatar {
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--rose-light), var(--gold-light));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--charcoal);
+}
+
+.user-name { font-size: 0.82rem; font-weight: 500; }
+.user-role {
+  font-size: 0.65rem;
+  color: var(--gray);
+  background: var(--light);
+  padding: 0.15rem 0.6rem;
+  border-radius: 100px;
+}
+
+/* PAGE CONTENT */
+.page-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1.2rem;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* BOTTOM NAV */
+.bottom-nav {
+  background: var(--warm);
+  border-top: 1px solid var(--light);
+  display: flex;
+  padding: 0.6rem 0 0.8rem;
+  flex-shrink: 0;
+}
+
+.nav-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.4rem 0;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: none;
+  background: none;
+}
+
+.nav-icon { font-size: 1.3rem; }
+.nav-label {
+  font-size: 0.62rem;
+  color: var(--gray);
+  font-family: 'DM Sans', sans-serif;
+  letter-spacing: 0.03em;
+}
+
+.nav-item.active .nav-label { color: var(--rose); font-weight: 600; }
+.nav-item.active .nav-icon { transform: scale(1.1); }
+
+/* ── PAGES ── */
+.page { display: none; }
+.page.active { display: block; }
+
+/* Section title */
+.sec-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+}
+.sec-title em { font-style: italic; color: var(--rose); }
+
+.sec-sub {
+  font-size: 0.78rem;
+  color: var(--gray);
+  margin-bottom: 1.2rem;
+  font-family: 'Noto Serif KR', serif;
+  font-weight: 300;
+}
+
+/* Cards */
+.card {
+  background: var(--warm);
+  border: 1.5px solid var(--light);
+  border-radius: 18px;
+  padding: 1.2rem;
+  margin-bottom: 0.9rem;
+  transition: all 0.2s;
+}
+.card:active { transform: scale(0.98); }
+
+/* HOME */
+.greeting {
+  background: linear-gradient(135deg, var(--charcoal), var(--navy));
+  border-radius: 20px;
+  padding: 1.5rem;
+  margin-bottom: 1.2rem;
+  color: var(--cream);
+  position: relative;
+  overflow: hidden;
+}
+
+.greeting::before {
+  content: '';
+  position: absolute;
+  width: 150px; height: 150px;
+  background: rgba(201,169,110,0.15);
+  border-radius: 50%;
+  top: -40px; right: -30px;
+}
+
+.greeting-hello { font-size: 0.75rem; color: var(--gold-light); letter-spacing: 0.1em; margin-bottom: 0.3rem; }
+.greeting-name { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 600; margin-bottom: 0.8rem; }
+.greeting-name em { font-style: italic; color: var(--gold); }
+
+.greeting-stats {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.g-stat { text-align: center; }
+.g-stat-num { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 600; color: var(--gold); }
+.g-stat-label { font-size: 0.65rem; color: rgba(250,246,240,0.6); letter-spacing: 0.05em; }
+
+/* Progress bar */
+.progress-bar {
+  height: 6px;
+  background: var(--light);
+  border-radius: 100px;
+  overflow: hidden;
+  margin: 0.5rem 0;
+}
+.progress-fill {
+  height: 100%;
+  border-radius: 100px;
+  background: linear-gradient(90deg, var(--rose), var(--gold));
+  transition: width 0.5s ease;
+}
+
+/* Quick actions */
+.quick-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.8rem;
+  margin-bottom: 1.2rem;
+}
+
+.quick-card {
+  background: var(--warm);
+  border: 1.5px solid var(--light);
+  border-radius: 16px;
+  padding: 1rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.quick-card:active { transform: scale(0.96); border-color: var(--rose-light); }
+.quick-card .q-icon { font-size: 1.4rem; margin-bottom: 0.5rem; display: block; }
+.quick-card .q-label { font-size: 0.78rem; font-weight: 500; }
+.quick-card .q-sub { font-size: 0.68rem; color: var(--gray); margin-top: 0.2rem; }
+
+/* Today's class */
+.today-class {
+  background: linear-gradient(135deg, var(--rose-light), var(--gold-light));
+  border-radius: 16px;
+  padding: 1.2rem;
+  margin-bottom: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.today-icon { font-size: 2rem; flex-shrink: 0; }
+.today-info .t-label { font-size: 0.68rem; color: var(--rose); letter-spacing: 0.08em; text-transform: uppercase; }
+.today-info .t-name { font-family: 'Cormorant Garamond', serif; font-size: 1.15rem; font-weight: 600; margin: 0.1rem 0; }
+.today-info .t-time { font-size: 0.75rem; color: var(--gray); }
+.today-btn {
+  margin-left: auto;
+  background: var(--charcoal);
+  color: var(--cream);
+  border: none;
+  border-radius: 100px;
+  padding: 0.5rem 1rem;
+  font-size: 0.75rem;
+  font-family: 'DM Sans', sans-serif;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* CLASSES PAGE */
+.class-filter {
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+  margin-bottom: 1rem;
+  scrollbar-width: none;
+}
+.class-filter::-webkit-scrollbar { display: none; }
+
+.cf-btn {
+  padding: 0.4rem 1rem;
+  border-radius: 100px;
+  border: 1.5px solid var(--light);
+  background: var(--warm);
+  font-size: 0.75rem;
+  cursor: pointer;
+  white-space: nowrap;
+  font-family: 'DM Sans', sans-serif;
+  transition: all 0.2s;
+  color: var(--gray);
+}
+.cf-btn.active {
+  background: var(--charcoal);
+  border-color: var(--charcoal);
+  color: var(--cream);
+}
+
+.class-card {
+  background: var(--warm);
+  border: 1.5px solid var(--light);
+  border-radius: 18px;
+  padding: 1.2rem;
+  margin-bottom: 0.9rem;
+}
+
+.cc-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.8rem; }
+.cc-badge {
+  font-size: 0.65rem;
+  padding: 0.25rem 0.7rem;
+  border-radius: 100px;
+  background: var(--cream);
+  border: 1px solid var(--light);
+  color: var(--gray);
+}
+.cc-badge.enrolled { background: var(--sage-light); border-color: var(--sage); color: var(--sage); }
+.cc-badge.open { background: var(--gold-light); border-color: var(--gold); color: #8a6a30; }
+
+.cc-emoji { font-size: 1.5rem; }
+.cc-name { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; font-weight: 600; margin-bottom: 0.2rem; }
+.cc-desc { font-size: 0.78rem; color: var(--gray); font-family: 'Noto Serif KR', serif; font-weight: 300; line-height: 1.5; margin-bottom: 0.8rem; }
+
+.cc-meta { display: flex; gap: 1rem; margin-bottom: 0.8rem; }
+.cc-meta-item { font-size: 0.72rem; color: var(--gray); display: flex; align-items: center; gap: 0.3rem; }
+
+.cc-btn {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 100px;
+  border: none;
+  font-size: 0.82rem;
+  font-family: 'DM Sans', sans-serif;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.cc-btn.primary { background: var(--charcoal); color: var(--cream); }
+.cc-btn.primary:hover { background: var(--rose); }
+.cc-btn.enrolled-btn { background: var(--sage-light); color: var(--sage); }
+
+/* HOMEWORK */
+.hw-tabs {
+  display: flex;
+  background: var(--light);
+  border-radius: 12px;
+  padding: 3px;
+  margin-bottom: 1.2rem;
+}
+.hw-tab {
+  flex: 1;
+  padding: 0.6rem;
+  border: none;
+  background: none;
+  border-radius: 10px;
+  font-size: 0.78rem;
+  font-family: 'DM Sans', sans-serif;
+  cursor: pointer;
+  transition: all 0.2s;
+  color: var(--gray);
+}
+.hw-tab.active {
+  background: var(--warm);
+  color: var(--charcoal);
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+.hw-card {
+  background: var(--warm);
+  border: 1.5px solid var(--light);
+  border-radius: 16px;
+  padding: 1.1rem;
+  margin-bottom: 0.8rem;
+}
+
+.hw-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; }
+.hw-status {
+  font-size: 0.65rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: 100px;
+}
+.hw-status.pending { background: var(--gold-light); color: #8a6a30; }
+.hw-status.done { background: var(--sage-light); color: var(--sage); }
+.hw-status.late { background: var(--rose-light); color: var(--rose); }
+
+.hw-class { font-size: 0.68rem; color: var(--rose); text-transform: uppercase; letter-spacing: 0.08em; }
+.hw-title { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-weight: 600; margin: 0.2rem 0; }
+.hw-desc { font-size: 0.76rem; color: var(--gray); font-family: 'Noto Serif KR', serif; font-weight: 300; line-height: 1.5; margin-bottom: 0.8rem; }
+.hw-due { font-size: 0.72rem; color: var(--gray); margin-bottom: 0.8rem; }
+.hw-due span { color: var(--warning); font-weight: 500; }
+
+.hw-submit-btn {
+  width: 100%;
+  padding: 0.7rem;
+  border-radius: 100px;
+  border: 1.5px solid var(--light);
+  background: var(--cream);
+  font-size: 0.8rem;
+  font-family: 'DM Sans', sans-serif;
+  cursor: pointer;
+  transition: all 0.2s;
+  color: var(--charcoal);
+}
+.hw-submit-btn:hover { border-color: var(--rose); color: var(--rose); }
+.hw-submit-btn.done-btn { background: var(--sage-light); border-color: var(--sage); color: var(--sage); }
+
+/* COMMUNITY */
+.community-write {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  background: var(--warm);
+  border: 1.5px solid var(--light);
+  border-radius: 14px;
+  padding: 0.9rem 1rem;
+  margin-bottom: 1.2rem;
+  cursor: pointer;
+}
+.cw-text { font-size: 0.82rem; color: var(--gray); }
+
+.post-card {
+  background: var(--warm);
+  border: 1.5px solid var(--light);
+  border-radius: 16px;
+  padding: 1.1rem;
+  margin-bottom: 0.8rem;
+}
+
+.post-top { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.7rem; }
+.post-avatar {
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+.post-user { font-size: 0.8rem; font-weight: 500; }
+.post-time { font-size: 0.68rem; color: var(--gray); margin-left: auto; }
+.post-badge-tag {
+  font-size: 0.62rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: 100px;
+  background: var(--rose-light);
+  color: var(--rose);
+}
+
+.post-content { font-size: 0.82rem; line-height: 1.6; margin-bottom: 0.7rem; font-family: 'Noto Serif KR', serif; font-weight: 300; }
+
+.post-actions { display: flex; gap: 1rem; }
+.post-action { font-size: 0.72rem; color: var(--gray); cursor: pointer; display: flex; align-items: center; gap: 0.3rem; }
+.post-action:hover { color: var(--rose); }
+
+/* COACH DASHBOARD */
+.coach-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.7rem;
+  margin-bottom: 1.2rem;
+}
+
+.coach-stat {
+  background: var(--warm);
+  border: 1.5px solid var(--light);
+  border-radius: 14px;
+  padding: 0.9rem 0.7rem;
+  text-align: center;
+}
+.cs-num { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 600; color: var(--charcoal); }
+.cs-label { font-size: 0.65rem; color: var(--gray); margin-top: 0.1rem; }
+
+.student-card {
+  background: var(--warm);
+  border: 1.5px solid var(--light);
+  border-radius: 16px;
+  padding: 1rem;
+  margin-bottom: 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.s-avatar {
+  width: 42px; height: 42px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.s-info { flex: 1; min-width: 0; }
+.s-name { font-size: 0.88rem; font-weight: 600; margin-bottom: 0.15rem; }
+.s-class { font-size: 0.7rem; color: var(--gray); }
+.s-progress { margin-top: 0.4rem; }
+.s-progress-text { display: flex; justify-content: space-between; font-size: 0.65rem; color: var(--gray); margin-bottom: 0.2rem; }
+
+.s-action {
+  background: none;
+  border: 1.5px solid var(--light);
+  border-radius: 100px;
+  padding: 0.4rem 0.9rem;
+  font-size: 0.72rem;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  color: var(--charcoal);
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+.s-action:hover { border-color: var(--rose); color: var(--rose); }
+
+/* FEEDBACK CARD */
+.feedback-card {
+  background: linear-gradient(135deg, var(--cream), var(--rose-light));
+  border-radius: 16px;
+  padding: 1.2rem;
+  margin-bottom: 0.9rem;
+  border: 1px solid var(--rose-light);
+}
+
+.fb-from { font-size: 0.68rem; color: var(--rose); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.3rem; }
+.fb-content { font-size: 0.82rem; line-height: 1.6; color: var(--charcoal); font-family: 'Noto Serif KR', serif; font-weight: 300; margin-bottom: 0.5rem; }
+.fb-time { font-size: 0.65rem; color: var(--gray); }
+
+/* PROFILE */
+.profile-header {
+  background: linear-gradient(135deg, var(--charcoal), var(--navy));
+  border-radius: 20px;
+  padding: 1.5rem;
+  text-align: center;
+  margin-bottom: 1.2rem;
+  color: var(--cream);
+}
+
+.profile-avatar-big {
+  width: 64px; height: 64px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--rose-light), var(--gold-light));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--charcoal);
+  margin: 0 auto 0.8rem;
+  border: 3px solid rgba(255,255,255,0.2);
+}
+
+.profile-name { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; font-weight: 600; margin-bottom: 0.2rem; }
+.profile-package { font-size: 0.72rem; color: var(--gold-light); }
+
+.profile-list { background: var(--warm); border-radius: 16px; overflow: hidden; border: 1.5px solid var(--light); margin-bottom: 0.9rem; }
+.profile-item {
+  display: flex;
+  align-items: center;
+  padding: 0.9rem 1.1rem;
+  border-bottom: 1px solid var(--light);
+  cursor: pointer;
+  transition: background 0.2s;
+  gap: 0.8rem;
+}
+.profile-item:last-child { border-bottom: none; }
+.profile-item:hover { background: var(--cream); }
+.pi-icon { font-size: 1.1rem; width: 24px; text-align: center; }
+.pi-label { font-size: 0.85rem; flex: 1; }
+.pi-arrow { color: var(--gray); font-size: 0.8rem; }
+
+/* MODAL */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(44,44,44,0.5);
+  backdrop-filter: blur(4px);
+  z-index: 300;
+  align-items: flex-end;
+  justify-content: center;
+  max-width: 430px;
+  margin: 0 auto;
+}
+.modal-overlay.open { display: flex; }
+
+.modal-sheet {
+  background: var(--warm);
+  border-radius: 24px 24px 0 0;
+  padding: 1.5rem 1.5rem 2.5rem;
+  width: 100%;
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+.modal-handle {
+  width: 40px; height: 4px;
+  background: var(--light);
+  border-radius: 100px;
+  margin: 0 auto 1.2rem;
+}
+
+.modal-title { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-weight: 600; margin-bottom: 1rem; }
+
+.m-input {
+  width: 100%;
+  background: var(--cream);
+  border: 1.5px solid var(--light);
+  border-radius: 12px;
+  padding: 0.8rem 1rem;
+  font-size: 0.88rem;
+  font-family: 'DM Sans', sans-serif;
+  outline: none;
+  margin-bottom: 0.8rem;
+  transition: border-color 0.2s;
+}
+.m-input:focus { border-color: var(--rose); }
+
+textarea.m-input { min-height: 100px; resize: none; }
+
+.m-btn {
+  width: 100%;
+  background: var(--charcoal);
+  color: var(--cream);
+  border: none;
+  border-radius: 100px;
+  padding: 0.9rem;
+  font-size: 0.88rem;
+  font-family: 'DM Sans', sans-serif;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.m-btn:hover { background: var(--rose); }
+
+/* TOAST */
+.toast {
+  position: fixed;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: var(--charcoal);
+  color: var(--cream);
+  padding: 0.7rem 1.5rem;
+  border-radius: 100px;
+  font-size: 0.8rem;
+  opacity: 0;
+  transition: all 0.3s;
+  z-index: 400;
+  white-space: nowrap;
+  max-width: 380px;
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* BADGE */
+.badge {
+  display: inline-block;
+  min-width: 18px;
+  height: 18px;
+  background: var(--rose);
+  color: white;
+  border-radius: 100px;
+  font-size: 0.6rem;
+  font-weight: 600;
+  text-align: center;
+  line-height: 18px;
+  padding: 0 4px;
+  margin-left: 4px;
+  vertical-align: top;
+}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="loginScreen">
+  <div class="login-logo">IVY<span>·</span>EL</div>
+  <div class="login-sub">Elingo Learning App</div>
+
+  <div class="role-select">
+    <div class="role-label">로그인 유형</div>
+    <div class="role-btns">
+      <div class="role-btn active" onclick="selectRole('student', this)">
+        <span class="role-icon">🎓</span>
+        <span class="role-name">학생</span>
+      </div>
+      <div class="role-btn" onclick="selectRole('coach', this)">
+        <span class="role-icon">👩‍🏫</span>
+        <span class="role-name">코치</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="login-form">
+    <input class="l-input" type="text" placeholder="이름 또는 이메일">
+    <input class="l-input" type="password" placeholder="비밀번호">
+    <button class="login-btn" onclick="doLogin()">시작하기</button>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app">
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <div class="topbar-row">
+      <div class="topbar-logo">IVY<span>·</span>EL</div>
+      <div class="topbar-user">
+        <div class="avatar" id="topAvatar">김</div>
+        <div>
+          <div class="user-name" id="topName">김지은</div>
+          <div class="user-role" id="topRole">학생</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGES -->
+  <div class="page-content">
+
+    <!-- HOME -->
+    <div class="page active" id="page-home">
+      <div class="greeting">
+        <div class="greeting-hello">Good morning ✦</div>
+        <div class="greeting-name">안녕하세요, <em id="greetName">지은</em>님</div>
+        <div class="greeting-stats">
+          <div class="g-stat">
+            <div class="g-stat-num" id="statAttend">12</div>
+            <div class="g-stat-label">출석</div>
+          </div>
+          <div class="g-stat">
+            <div class="g-stat-num" id="statHw">3</div>
+            <div class="g-stat-label">숙제</div>
+          </div>
+          <div class="g-stat">
+            <div class="g-stat-num" id="statStreak">7</div>
+            <div class="g-stat-label">연속일</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Today's class -->
+      <div class="sec-title">오늘의 <em>수업</em></div>
+      <div class="sec-sub" style="margin-bottom:0.8rem;">Today's Schedule</div>
+
+      <div class="today-class">
+        <div class="today-icon">📖</div>
+        <div class="today-info">
+          <div class="t-label">성경영어 소그룹</div>
+          <div class="t-name">John 3:16 — 영어로 읽기</div>
+          <div class="t-time">오후 2:00 · Zoom · 60분</div>
+        </div>
+        <button class="today-btn" onclick="showToast('줌 링크가 복사되었어요 📋')">입장</button>
+      </div>
+
+      <div class="today-class" style="background: linear-gradient(135deg, var(--sage-light), var(--gold-light));">
+        <div class="today-icon">💬</div>
+        <div class="today-info">
+          <div class="t-label">회화 1:1</div>
+          <div class="t-name">Daily Conversation Practice</div>
+          <div class="t-time">오후 4:00 · Zoom · 50분</div>
+        </div>
+        <button class="today-btn" onclick="showToast('줌 링크가 복사되었어요 📋')">입장</button>
+      </div>
+
+      <!-- Quick actions -->
+      <div class="sec-title" style="margin-top:0.5rem;">빠른 <em>메뉴</em></div>
+      <div class="sec-sub" style="margin-bottom:0.8rem;">Quick Access</div>
+
+      <div class="quick-grid">
+        <div class="quick-card" onclick="switchPage('homework')">
+          <span class="q-icon">📝</span>
+          <div class="q-label">숙제 제출</div>
+          <div class="q-sub">미제출 2개</div>
+        </div>
+        <div class="quick-card" onclick="switchPage('community')">
+          <span class="q-icon">💬</span>
+          <div class="q-label">커뮤니티</div>
+          <div class="q-sub">새 글 5개</div>
+        </div>
+        <div class="quick-card" onclick="showToast('학습 자료를 불러오는 중...')">
+          <span class="q-icon">📚</span>
+          <div class="q-label">학습 자료</div>
+          <div class="q-sub">이번 주 자료</div>
+        </div>
+        <div class="quick-card" onclick="showToast('코치 메시지함으로 이동합니다')">
+          <span class="q-icon">💌</span>
+          <div class="q-label">코치 피드백</div>
+          <div class="q-sub">새 메시지 1개</div>
+        </div>
+      </div>
+
+      <!-- Coach feedback -->
+      <div class="sec-title">코치 <em>피드백</em></div>
+      <div class="sec-sub" style="margin-bottom:0.8rem;">최근 받은 피드백</div>
+
+      <div class="feedback-card">
+        <div class="fb-from">🌸 코치 메시지</div>
+        <div class="fb-content">지은님, 이번 주 회화 수업에서 정말 많이 늘었어요! 특히 자연스럽게 연결사를 쓰는 부분이 좋았어요. 다음 주엔 과거 시제 표현을 좀 더 연습해봐요 💪</div>
+        <div class="fb-time">어제 오후 3:22</div>
+      </div>
+    </div>
+
+    <!-- CLASSES -->
+    <div class="page" id="page-classes">
+      <div class="sec-title">Elingo <em>수업</em></div>
+      <div class="sec-sub">수강 중인 수업과 새 수업을 확인하세요</div>
+
+      <div class="class-filter">
+        <button class="cf-btn active" onclick="cfFilter('all', this)">전체</button>
+        <button class="cf-btn" onclick="cfFilter('bible', this)">📖 성경영어</button>
+        <button class="cf-btn" onclick="cfFilter('speaking', this)">💬 회화</button>
+        <button class="cf-btn" onclick="cfFilter('writing', this)">✍️ 글쓰기</button>
+        <button class="cf-btn" onclick="cfFilter('coaching', this)">🌱 코칭</button>
+        <button class="cf-btn" onclick="cfFilter('kids', this)">🌿 어린이</button>
+      </div>
+
+      <div class="class-card" data-type="bible">
+        <div class="cc-top">
+          <div class="cc-emoji">📖</div>
+          <span class="cc-badge enrolled">✓ 수강 중</span>
+        </div>
+        <div class="cc-name">성경영어 소그룹</div>
+        <div class="cc-desc">말씀을 영어로 읽고 나누며 영어와 신앙이 함께 자라는 수업입니다.</div>
+        <div class="cc-meta">
+          <div class="cc-meta-item">📅 매주 화/목</div>
+          <div class="cc-meta-item">⏰ 오후 2시</div>
+          <div class="cc-meta-item">👥 소그룹</div>
+        </div>
+        <div class="progress-bar"><div class="progress-fill" style="width:75%"></div></div>
+        <div style="font-size:0.68rem; color:var(--gray); margin:0.3rem 0 0.8rem;">진도 75% — 12/16 완료</div>
+        <button class="cc-btn enrolled-btn">✓ 수강 중 · 자료 보기</button>
+      </div>
+
+      <div class="class-card" data-type="speaking">
+        <div class="cc-top">
+          <div class="cc-emoji">💬</div>
+          <span class="cc-badge enrolled">✓ 수강 중</span>
+        </div>
+        <div class="cc-name">영어 회화 1:1</div>
+        <div class="cc-desc">맞춤 피드백으로 실제 영어 회화 자신감을 키웁니다.</div>
+        <div class="cc-meta">
+          <div class="cc-meta-item">📅 매주 월/수</div>
+          <div class="cc-meta-item">⏰ 오후 4시</div>
+          <div class="cc-meta-item">👤 1:1</div>
+        </div>
+        <div class="progress-bar"><div class="progress-fill" style="width:50%"></div></div>
+        <div style="font-size:0.68rem; color:var(--gray); margin:0.3rem 0 0.8rem;">진도 50% — 8/16 완료</div>
+        <button class="cc-btn enrolled-btn">✓ 수강 중 · 자료 보기</button>
+      </div>
+
+      <div class="class-card" data-type="writing">
+        <div class="cc-top">
+          <div class="cc-emoji">✍️</div>
+          <span class="cc-badge open">모집 중</span>
+        </div>
+        <div class="cc-name">영어 글쓰기 과정</div>
+        <div class="cc-desc">일기부터 에세이까지, 나만의 영어 글쓰기 루틴을 만들어요.</div>
+        <div class="cc-meta">
+          <div class="cc-meta-item">📅 매주 금</div>
+          <div class="cc-meta-item">⏰ 오전 10시</div>
+          <div class="cc-meta-item">👥 소그룹</div>
+        </div>
+        <button class="cc-btn primary" onclick="openModal('enroll', '영어 글쓰기 과정')">수강 신청하기</button>
+      </div>
+
+      <div class="class-card" data-type="coaching">
+        <div class="cc-top">
+          <div class="cc-emoji">🌱</div>
+          <span class="cc-badge open">모집 중</span>
+        </div>
+        <div class="cc-name">영어 코칭 (자신감/동기)</div>
+        <div class="cc-desc">영어 실력보다 마인드셋부터. 1:1 코칭으로 자신감을 키워요.</div>
+        <div class="cc-meta">
+          <div class="cc-meta-item">📅 격주 토</div>
+          <div class="cc-meta-item">⏰ 오전 11시</div>
+          <div class="cc-meta-item">👤 1:1</div>
+        </div>
+        <button class="cc-btn primary" onclick="openModal('enroll', '영어 코칭')">수강 신청하기</button>
+      </div>
+
+      <div class="class-card" data-type="kids">
+        <div class="cc-top">
+          <div class="cc-emoji">🌿</div>
+          <span class="cc-badge open">모집 중</span>
+        </div>
+        <div class="cc-name">키즈 영어</div>
+        <div class="cc-desc">노래, 스토리, 게임으로 영어가 자연스럽게 스며드는 어린이 수업.</div>
+        <div class="cc-meta">
+          <div class="cc-meta-item">📅 주 2회</div>
+          <div class="cc-meta-item">⏰ 오후 4시</div>
+          <div class="cc-meta-item">👥 소그룹</div>
+        </div>
+        <button class="cc-btn primary" onclick="openModal('enroll', '키즈 영어')">수강 신청하기</button>
+      </div>
+    </div>
+
+    <!-- HOMEWORK -->
+    <div class="page" id="page-homework">
+      <div class="sec-title">숙제 &amp; <em>과제</em></div>
+      <div class="sec-sub">Homework &amp; Assignments</div>
+
+      <div class="hw-tabs">
+        <button class="hw-tab active" onclick="hwTab('pending', this)">미제출 <span class="badge">2</span></button>
+        <button class="hw-tab" onclick="hwTab('done', this)">제출 완료</button>
+        <button class="hw-tab" onclick="hwTab('all', this)">전체</button>
+      </div>
+
+      <div class="hw-card" data-hw="pending">
+        <div class="hw-top">
+          <div class="hw-class">📖 성경영어</div>
+          <span class="hw-status pending">미제출</span>
+        </div>
+        <div class="hw-title">John 3장 영어로 필사하기</div>
+        <div class="hw-desc">요한복음 3장을 영어 성경으로 읽고, 마음에 닿는 구절 3개를 영어로 필사해주세요.</div>
+        <div class="hw-due">마감 <span>내일 오전 9:00</span></div>
+        <button class="hw-submit-btn" onclick="openModal('submit', 'John 3장 필사')">📎 제출하기</button>
+      </div>
+
+      <div class="hw-card" data-hw="pending">
+        <div class="hw-top">
+          <div class="hw-class">💬 영어 회화</div>
+          <span class="hw-status pending">미제출</span>
+        </div>
+        <div class="hw-title">자기소개 영어로 녹음하기</div>
+        <div class="hw-desc">1분 분량의 자기소개를 영어로 녹음해서 제출해주세요. 틀려도 괜찮아요!</div>
+        <div class="hw-due">마감 <span>이번 주 금요일</span></div>
+        <button class="hw-submit-btn" onclick="openModal('submit', '자기소개 녹음')">🎤 제출하기</button>
+      </div>
+
+      <div class="hw-card" data-hw="done">
+        <div class="hw-top">
+          <div class="hw-class">📖 성경영어</div>
+          <span class="hw-status done">✓ 완료</span>
+        </div>
+        <div class="hw-title">Psalm 23 암송 & 필사</div>
+        <div class="hw-desc">시편 23편을 영어로 암송하고 필사하는 과제.</div>
+        <div class="hw-due" style="color:var(--sage);">✓ 지난주 제출 완료</div>
+        <button class="hw-submit-btn done-btn">✓ 코치 확인 완료</button>
+      </div>
+    </div>
+
+    <!-- COMMUNITY -->
+    <div class="page" id="page-community">
+      <div class="sec-title">커뮤니티 <em>게시판</em></div>
+      <div class="sec-sub">함께 나누고 응원해요</div>
+
+      <div class="community-write" onclick="openModal('write', '')">
+        <div class="avatar" style="width:32px;height:32px;font-size:0.8rem;">김</div>
+        <div class="cw-text">오늘의 영어 한마디를 나눠보세요... ✍️</div>
+      </div>
+
+      <div class="post-card">
+        <div class="post-top">
+          <div class="post-avatar" style="background:linear-gradient(135deg,var(--rose-light),var(--gold-light))">이</div>
+          <div>
+            <div class="post-user">이미경</div>
+          </div>
+          <span class="post-badge-tag">성경영어</span>
+          <div class="post-time">10분 전</div>
+        </div>
+        <div class="post-content">"For God so loved the world" — 오늘 이 구절이 너무 마음에 와닿았어요. 영어로 읽으니까 또 다른 감동이 있네요 🙏</div>
+        <div class="post-actions">
+          <div class="post-action" onclick="showToast('❤️ 좋아요!')">❤️ 12</div>
+          <div class="post-action">💬 댓글 3</div>
+          <div class="post-action">🔖 저장</div>
+        </div>
+      </div>
+
+      <div class="post-card">
+        <div class="post-top">
+          <div class="post-avatar" style="background:linear-gradient(135deg,var(--sage-light),var(--gold-light))">박</div>
+          <div>
+            <div class="post-user">박수연</div>
+          </div>
+          <span class="post-badge-tag">회화</span>
+          <div class="post-time">1시간 전</div>
+        </div>
+        <div class="post-content">드디어 자기소개 숙제 제출했어요! 🎉 처음엔 너무 떨렸는데 막상 하고나니 뿌듯하네요. 다들 화이팅!!</div>
+        <div class="post-actions">
+          <div class="post-action" onclick="showToast('❤️ 좋아요!')">❤️ 8</div>
+          <div class="post-action">💬 댓글 5</div>
+          <div class="post-action">🔖 저장</div>
+        </div>
+      </div>
+
+      <div class="post-card" style="border-color:var(--gold-light); background:linear-gradient(135deg,var(--warm),var(--gold-light))">
+        <div class="post-top">
+          <div class="post-avatar" style="background:var(--charcoal); color:var(--gold);">코</div>
+          <div>
+            <div class="post-user">코치 📣</div>
+          </div>
+          <div class="post-time">어제</div>
+        </div>
+        <div class="post-content">이번 주 수업 정말 모두 수고 많았어요! 특히 자기소개 녹음 과제 많이들 올려주셨는데 하나하나 다 들었어요 💕 다음 주에도 함께 성장해요!</div>
+        <div class="post-actions">
+          <div class="post-action" onclick="showToast('❤️ 좋아요!')">❤️ 24</div>
+          <div class="post-action">💬 댓글 11</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- COACH PAGE (관리자) -->
+    <div class="page" id="page-coach">
+      <div class="sec-title">코치 <em>대시보드</em></div>
+      <div class="sec-sub">학생 관리 & 수업 운영</div>
+
+      <div class="coach-stats">
+        <div class="coach-stat">
+          <div class="cs-num">18</div>
+          <div class="cs-label">전체 학생</div>
+        </div>
+        <div class="coach-stat">
+          <div class="cs-num">3</div>
+          <div class="cs-label">오늘 수업</div>
+        </div>
+        <div class="coach-stat">
+          <div class="cs-num">7</div>
+          <div class="cs-label">미확인 숙제</div>
+        </div>
+      </div>
+
+      <div class="sec-title" style="font-size:1.1rem;">학생 <em>목록</em></div>
+      <div class="sec-sub" style="margin-bottom:0.8rem;">진도 & 출석 현황</div>
+
+      <div class="student-card">
+        <div class="s-avatar" style="background:linear-gradient(135deg,var(--rose-light),var(--gold-light))">김</div>
+        <div class="s-info">
+          <div class="s-name">김지은</div>
+          <div class="s-class">성경영어 · 회화 1:1</div>
+          <div class="s-progress">
+            <div class="s-progress-text"><span>진도</span><span>75%</span></div>
+            <div class="progress-bar"><div class="progress-fill" style="width:75%"></div></div>
+          </div>
+        </div>
+        <button class="s-action" onclick="openModal('feedback', '김지은')">피드백</button>
+      </div>
+
+      <div class="student-card">
+        <div class="s-avatar" style="background:linear-gradient(135deg,var(--sage-light),var(--gold-light))">박</div>
+        <div class="s-info">
+          <div class="s-name">박수연</div>
+          <div class="s-class">회화 1:1</div>
+          <div class="s-progress">
+            <div class="s-progress-text"><span>진도</span><span>50%</span></div>
+            <div class="progress-bar"><div class="progress-fill" style="width:50%"></div></div>
+          </div>
+        </div>
+        <button class="s-action" onclick="openModal('feedback', '박수연')">피드백</button>
+      </div>
+
+      <div class="student-card">
+        <div class="s-avatar" style="background:linear-gradient(135deg,var(--gold-light),var(--rose-light))">이</div>
+        <div class="s-info">
+          <div class="s-name">이미경</div>
+          <div class="s-class">성경영어 · 글쓰기</div>
+          <div class="s-progress">
+            <div class="s-progress-text"><span>진도</span><span>90%</span></div>
+            <div class="progress-bar"><div class="progress-fill" style="width:90%"></div></div>
+          </div>
+        </div>
+        <button class="s-action" onclick="openModal('feedback', '이미경')">피드백</button>
+      </div>
+
+      <div class="sec-title" style="font-size:1.1rem; margin-top:0.5rem;">미제출 <em>숙제</em></div>
+      <div class="sec-sub" style="margin-bottom:0.8rem;">확인 필요</div>
+
+      <div class="hw-card">
+        <div class="hw-top">
+          <div class="hw-class">💬 회화</div>
+          <span class="hw-status pending">미확인 3명</span>
+        </div>
+        <div class="hw-title">자기소개 영어로 녹음하기</div>
+        <div class="hw-due">마감 <span>이번 주 금요일</span></div>
+        <button class="hw-submit-btn" onclick="showToast('제출 현황을 확인합니다')">제출 현황 보기</button>
+      </div>
+    </div>
+
+    <!-- PROFILE -->
+    <div class="page" id="page-profile">
+      <div class="profile-header">
+        <div class="profile-avatar-big" id="profileAvatar">김</div>
+        <div class="profile-name" id="profileName">김지은</div>
+        <div class="profile-package" id="profilePackage">✦ Elingo 올인원 6개월</div>
+      </div>
+
+      <div class="sec-title" style="font-size:1.1rem;">나의 <em>학습 현황</em></div>
+      <div class="card" style="margin-bottom:1.2rem;">
+        <div style="display:flex; justify-content:space-between; margin-bottom:0.8rem;">
+          <span style="font-size:0.78rem; color:var(--gray);">전체 진도</span>
+          <span style="font-size:0.78rem; font-weight:600;">63%</span>
+        </div>
+        <div class="progress-bar" style="height:8px;"><div class="progress-fill" style="width:63%"></div></div>
+        <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:0.5rem; margin-top:1rem; text-align:center;">
+          <div>
+            <div style="font-family:'Cormorant Garamond',serif; font-size:1.4rem; font-weight:600;">20</div>
+            <div style="font-size:0.65rem; color:var(--gray);">총 수업</div>
+          </div>
+          <div>
+            <div style="font-family:'Cormorant Garamond',serif; font-size:1.4rem; font-weight:600; color:var(--success);">18</div>
+            <div style="font-size:0.65rem; color:var(--gray);">출석</div>
+          </div>
+          <div>
+            <div style="font-family:'Cormorant Garamond',serif; font-size:1.4rem; font-weight:600; color:var(--rose);">2</div>
+            <div style="font-size:0.65rem; color:var(--gray);">결석</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="profile-list">
+        <div class="profile-item" onclick="showToast('학습 자료 페이지로 이동합니다')">
+          <span class="pi-icon">📚</span>
+          <span class="pi-label">내 학습 자료</span>
+          <span class="pi-arrow">›</span>
+        </div>
+        <div class="profile-item" onclick="showToast('결제 내역 페이지로 이동합니다')">
+          <span class="pi-icon">💳</span>
+          <span class="pi-label">결제 & 패키지 관리</span>
+          <span class="pi-arrow">›</span>
+        </div>
+        <div class="profile-item" onclick="showToast('알림 설정 페이지로 이동합니다')">
+          <span class="pi-icon">🔔</span>
+          <span class="pi-label">알림 설정</span>
+          <span class="pi-arrow">›</span>
+        </div>
+        <div class="profile-item" onclick="showToast('수업 일정을 확인합니다')">
+          <span class="pi-icon">📅</span>
+          <span class="pi-label">수업 일정</span>
+          <span class="pi-arrow">›</span>
+        </div>
+        <div class="profile-item" onclick="doLogout()">
+          <span class="pi-icon">🚪</span>
+          <span class="pi-label" style="color:var(--rose);">로그아웃</span>
+          <span class="pi-arrow">›</span>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /page-content -->
+
+  <!-- BOTTOM NAV -->
+  <div class="bottom-nav">
+    <button class="nav-item active" onclick="switchPage('home', this)">
+      <span class="nav-icon">🏠</span>
+      <span class="nav-label">홈</span>
+    </button>
+    <button class="nav-item" onclick="switchPage('classes', this)">
+      <span class="nav-icon">📖</span>
+      <span class="nav-label">수업</span>
+    </button>
+    <button class="nav-item" onclick="switchPage('homework', this)">
+      <span class="nav-icon">📝</span>
+      <span class="nav-label">숙제<span class="badge">2</span></span>
+    </button>
+    <button class="nav-item" onclick="switchPage('community', this)">
+      <span class="nav-icon">💬</span>
+      <span class="nav-label">커뮤니티</span>
+    </button>
+    <button class="nav-item" id="lastNavItem" onclick="switchPage('profile', this)">
+      <span class="nav-icon">👤</span>
+      <span class="nav-label">내 정보</span>
+    </button>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModalOutside(event)">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <div class="modal-title" id="modalTitle">—</div>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+let currentRole = 'student';
+let currentPage = 'home';
+
+function selectRole(role, el) {
+  currentRole = role;
+  document.querySelectorAll('.role-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+}
+
+function doLogin() {
+  const loginScreen = document.getElementById('loginScreen');
+  const app = document.getElementById('app');
+  loginScreen.style.display = 'none';
+  app.classList.add('show');
+
+  if (currentRole === 'coach') {
+    document.getElementById('topName').textContent = '코치님';
+    document.getElementById('topRole').textContent = '코치';
+    document.getElementById('topAvatar').textContent = '코';
+    document.getElementById('greetName').textContent = '코치님';
+    document.getElementById('profileName').textContent = 'IVY·EL 코치';
+    document.getElementById('profileAvatar').textContent = '코';
+    document.getElementById('profilePackage').textContent = '✦ 관리자 계정';
+    // Add coach tab
+    const lastNav = document.getElementById('lastNavItem');
+    const coachNav = document.createElement('button');
+    coachNav.className = 'nav-item';
+    coachNav.innerHTML = '<span class="nav-icon">👩‍🏫</span><span class="nav-label">관리</span>';
+    coachNav.onclick = function() { switchPage('coach', this); };
+    lastNav.parentNode.insertBefore(coachNav, lastNav);
+  }
+}
+
+function doLogout() {
+  document.getElementById('loginScreen').style.display = 'flex';
+  document.getElementById('app').classList.remove('show');
+}
+
+function switchPage(name, navEl) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  if (navEl) navEl.classList.add('active');
+  currentPage = name;
+}
+
+function cfFilter(type, el) {
+  document.querySelectorAll('.cf-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  document.querySelectorAll('.class-card').forEach(c => {
+    c.style.display = (type === 'all' || c.dataset.type === type) ? 'block' : 'none';
+  });
+}
+
+function hwTab(type, el) {
+  document.querySelectorAll('.hw-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  document.querySelectorAll('.hw-card').forEach(c => {
+    if (type === 'all') c.style.display = 'block';
+    else c.style.display = c.dataset.hw === type ? 'block' : 'none';
+  });
+}
+
+function openModal(type, data) {
+  const overlay = document.getElementById('modalOverlay');
+  const title = document.getElementById('modalTitle');
+  const body = document.getElementById('modalBody');
+
+  if (type === 'submit') {
+    title.textContent = '📎 과제 제출';
+    body.innerHTML = `
+      <p style="font-size:0.82rem; color:var(--gray); margin-bottom:1rem; font-family:'Noto Serif KR',serif; font-weight:300;">${data}</p>
+      <textarea class="m-input" placeholder="과제 내용을 입력하거나 파일을 첨부하세요..." rows="4"></textarea>
+      <div style="border:2px dashed var(--light); border-radius:12px; padding:1.5rem; text-align:center; margin-bottom:0.8rem; cursor:pointer;" onclick="showToast('파일 선택 창이 열립니다')">
+        <div style="font-size:1.5rem; margin-bottom:0.3rem;">📎</div>
+        <div style="font-size:0.78rem; color:var(--gray);">파일 첨부 (사진, 음성, PDF)</div>
+      </div>
+      <button class="m-btn" onclick="closeModal(); showToast('✅ 제출 완료! 코치님이 확인 후 피드백을 드려요.')">제출하기</button>`;
+  } else if (type === 'enroll') {
+    title.textContent = '수강 신청';
+    body.innerHTML = `
+      <div style="background:var(--cream); border-radius:12px; padding:1rem; margin-bottom:1rem; font-family:'Cormorant Garamond',serif; font-size:1.1rem; font-weight:600;">${data}</div>
+      <input class="m-input" type="text" placeholder="이름">
+      <input class="m-input" type="text" placeholder="연락처">
+      <select class="m-input">
+        <option>온라인 (Zoom)</option>
+        <option>대면</option>
+        <option>상관없음</option>
+      </select>
+      <textarea class="m-input" rows="2" placeholder="남기실 말씀 (선택)"></textarea>
+      <button class="m-btn" onclick="closeModal(); showToast('✅ 신청 완료! 1-2일 내 연락드릴게요 💌')">신청하기</button>`;
+  } else if (type === 'feedback') {
+    title.textContent = `💌 ${data}님께 피드백`;
+    body.innerHTML = `
+      <textarea class="m-input" rows="5" placeholder="오늘 수업 피드백을 남겨주세요..."></textarea>
+      <button class="m-btn" onclick="closeModal(); showToast('✅ 피드백을 전송했어요!')">전송하기</button>`;
+  } else if (type === 'write') {
+    title.textContent = '✍️ 글 쓰기';
+    body.innerHTML = `
+      <select class="m-input">
+        <option>📖 성경영어</option>
+        <option>💬 회화</option>
+        <option>🌱 일반</option>
+        <option>❓ 질문</option>
+      </select>
+      <textarea class="m-input" rows="5" placeholder="오늘의 영어 한마디, 나눔, 질문을 자유롭게 써주세요..."></textarea>
+      <button class="m-btn" onclick="closeModal(); showToast('✅ 게시글이 등록되었어요!')">게시하기</button>`;
+  }
+
+  overlay.classList.add('open');
+}
+
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('open');
+}
+
+function closeModalOutside(e) {
+  if (e.target === document.getElementById('modalOverlay')) closeModal();
+}
+
+let toastTimer;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2500);
+}
+</script>
+</body>
+</html>

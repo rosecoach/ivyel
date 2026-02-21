@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IVY·EL — Elingo 프로그램 신청</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Noto+Serif+KR:wght@300;400;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #FAF6F0;
+    --warm-white: #FDF9F4;
+    --sage: #8A9E8C;
+    --sage-light: #C5D4C6;
+    --dusty-rose: #C4998A;
+    --rose-light: #E8D0C8;
+    --gold: #C9A96E;
+    --gold-light: #EDD9B0;
+    --charcoal: #2C2C2C;
+    --mid-gray: #6B6B6B;
+    --light-gray: #E8E4DF;
+    --navy: #2D3A4A;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--cream);
+    color: var(--charcoal);
+    font-family: 'DM Sans', 'Noto Serif KR', sans-serif;
+  }
+
+  /* NAV */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(250,246,240,0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(201,169,110,0.2);
+    padding: 1rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+  }
+  .logo span { color: var(--gold); }
+
+  .nav-badge {
+    background: var(--charcoal);
+    color: var(--cream);
+    font-size: 0.75rem;
+    padding: 0.4rem 1rem;
+    border-radius: 100px;
+    letter-spacing: 0.05em;
+  }
+
+  /* HERO */
+  .hero {
+    text-align: center;
+    padding: 5rem 2rem 3rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, var(--rose-light) 0%, transparent 70%);
+    top: -100px; left: 50%;
+    transform: translateX(-50%);
+    opacity: 0.5;
+    z-index: 0;
+  }
+
+  .hero-tag {
+    display: inline-block;
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    border: 1px solid var(--gold-light);
+    padding: 0.4rem 1.2rem;
+    border-radius: 100px;
+    margin-bottom: 1.5rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.2rem, 4vw, 3.2rem);
+    font-weight: 300;
+    line-height: 1.25;
+    margin-bottom: 1rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero h1 em { font-style: italic; color: var(--dusty-rose); }
+
+  .hero p {
+    font-family: 'Noto Serif KR', serif;
+    font-weight: 300;
+    font-size: 0.95rem;
+    color: var(--mid-gray);
+    line-height: 1.8;
+    max-width: 480px;
+    margin: 0 auto 2rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* FILTER TABS */
+  .filter-section {
+    padding: 0 3rem 1.5rem;
+  }
+
+  .filter-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--mid-gray);
+    margin-bottom: 0.8rem;
+  }
+
+  .filter-row {
+    display: flex;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+  }
+
+  .filter-btn {
+    background: var(--warm-white);
+    border: 1.5px solid var(--light-gray);
+    border-radius: 100px;
+    padding: 0.5rem 1.2rem;
+    font-size: 0.82rem;
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer;
+    transition: all 0.25s;
+    color: var(--mid-gray);
+  }
+
+  .filter-btn.active {
+    background: var(--charcoal);
+    border-color: var(--charcoal);
+    color: var(--cream);
+  }
+
+  .filter-btn:hover:not(.active) {
+    border-color: var(--dusty-rose);
+    color: var(--dusty-rose);
+  }
+
+  /* PACKAGES GRID */
+  .packages {
+    padding: 1rem 3rem 5rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .pkg-card {
+    background: var(--warm-white);
+    border: 1.5px solid var(--light-gray);
+    border-radius: 24px;
+    padding: 2rem;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .pkg-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.09);
+    border-color: var(--rose-light);
+  }
+
+  .pkg-card.featured {
+    border-color: var(--gold);
+    background: linear-gradient(145deg, #FDF9F4, #FAF3E8);
+  }
+
+  .pkg-card.featured::before {
+    content: '✦ 인기';
+    position: absolute;
+    top: 1.2rem; right: 1.2rem;
+    background: var(--gold);
+    color: var(--cream);
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    padding: 0.3rem 0.8rem;
+    border-radius: 100px;
+  }
+
+  .pkg-card.kids { border-color: var(--sage-light); }
+  .pkg-card.kids::before {
+    content: '🌿 어린이';
+    position: absolute;
+    top: 1.2rem; right: 1.2rem;
+    background: var(--sage);
+    color: var(--cream);
+    font-size: 0.68rem;
+    padding: 0.3rem 0.8rem;
+    border-radius: 100px;
+  }
+
+  .pkg-emoji {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+  }
+
+  .pkg-type {
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--dusty-rose);
+    margin-bottom: 0.4rem;
+  }
+
+  .pkg-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-bottom: 0.3rem;
+  }
+
+  .pkg-sub {
+    font-size: 0.78rem;
+    color: var(--mid-gray);
+    font-family: 'Noto Serif KR', serif;
+    font-weight: 300;
+    margin-bottom: 1.2rem;
+    line-height: 1.6;
+  }
+
+  .pkg-price-row {
+    display: flex;
+    align-items: baseline;
+    gap: 0.4rem;
+    margin-bottom: 0.3rem;
+  }
+
+  .pkg-price {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--charcoal);
+  }
+
+  .pkg-unit {
+    font-size: 0.8rem;
+    color: var(--mid-gray);
+  }
+
+  .pkg-original {
+    font-size: 0.78rem;
+    color: var(--mid-gray);
+    text-decoration: line-through;
+    margin-bottom: 1.2rem;
+  }
+
+  .pkg-divider {
+    height: 1px;
+    background: var(--light-gray);
+    margin: 1.2rem 0;
+  }
+
+  .pkg-includes {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+    margin-bottom: 1.5rem;
+    flex: 1;
+  }
+
+  .pkg-includes li {
+    font-size: 0.82rem;
+    color: var(--mid-gray);
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    font-family: 'Noto Serif KR', serif;
+    font-weight: 300;
+    line-height: 1.5;
+  }
+
+  .pkg-includes li::before {
+    content: '✓';
+    color: var(--sage);
+    font-weight: 600;
+    font-size: 0.85rem;
+    flex-shrink: 0;
+    margin-top: 0.05rem;
+  }
+
+  .pkg-btn {
+    width: 100%;
+    padding: 0.85rem;
+    border-radius: 100px;
+    border: none;
+    font-size: 0.88rem;
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer;
+    transition: all 0.3s;
+    letter-spacing: 0.03em;
+  }
+
+  .pkg-btn.primary {
+    background: var(--charcoal);
+    color: var(--cream);
+  }
+
+  .pkg-btn.primary:hover { background: var(--dusty-rose); }
+
+  .pkg-btn.outline {
+    background: transparent;
+    border: 1.5px solid var(--light-gray);
+    color: var(--charcoal);
+  }
+
+  .pkg-btn.outline:hover {
+    border-color: var(--dusty-rose);
+    color: var(--dusty-rose);
+  }
+
+  .pkg-btn.gold {
+    background: var(--gold);
+    color: var(--cream);
+  }
+
+  .pkg-btn.gold:hover { background: var(--charcoal); }
+
+  /* FORMAT BADGE */
+  .format-badges {
+    display: flex;
+    gap: 0.4rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .format-badge {
+    font-size: 0.68rem;
+    padding: 0.2rem 0.7rem;
+    border-radius: 100px;
+    background: var(--cream);
+    border: 1px solid var(--light-gray);
+    color: var(--mid-gray);
+  }
+
+  /* MODAL */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(44,44,44,0.5);
+    backdrop-filter: blur(4px);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+  }
+
+  .modal-overlay.open { display: flex; }
+
+  .modal {
+    background: var(--warm-white);
+    border-radius: 24px;
+    padding: 2.5rem;
+    max-width: 520px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    animation: fadeUp 0.3s ease;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1.5rem;
+  }
+
+  .modal-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.6rem;
+    font-weight: 600;
+  }
+
+  .modal-close {
+    background: var(--light-gray);
+    border: none;
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: background 0.2s;
+  }
+
+  .modal-close:hover { background: var(--rose-light); }
+
+  .modal-pkg-info {
+    background: var(--cream);
+    border-radius: 12px;
+    padding: 1rem 1.2rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .modal-pkg-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+
+  .modal-pkg-price {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--dusty-rose);
+  }
+
+  .form-group {
+    margin-bottom: 1rem;
+  }
+
+  label {
+    display: block;
+    font-size: 0.78rem;
+    color: var(--mid-gray);
+    margin-bottom: 0.4rem;
+    font-family: 'Noto Serif KR', serif;
+  }
+
+  input, select, textarea {
+    width: 100%;
+    background: var(--cream);
+    border: 1.5px solid var(--light-gray);
+    border-radius: 10px;
+    padding: 0.75rem 1rem;
+    font-size: 0.88rem;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--charcoal);
+    outline: none;
+    transition: border-color 0.3s;
+  }
+
+  input:focus, select:focus, textarea:focus { border-color: var(--dusty-rose); }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.8rem;
+  }
+
+  .submit-btn {
+    width: 100%;
+    background: var(--charcoal);
+    color: var(--cream);
+    border: none;
+    border-radius: 100px;
+    padding: 1rem;
+    font-size: 0.92rem;
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer;
+    margin-top: 0.5rem;
+    transition: all 0.3s;
+  }
+
+  .submit-btn:hover { background: var(--dusty-rose); }
+
+  /* COMPARE TABLE */
+  .compare-section {
+    padding: 3rem;
+    background: var(--warm-white);
+    border-top: 1px solid var(--light-gray);
+  }
+
+  .compare-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.6rem;
+    font-weight: 300;
+    margin-bottom: 0.3rem;
+    text-align: center;
+  }
+
+  .compare-title em { font-style: italic; color: var(--dusty-rose); }
+
+  .compare-sub {
+    text-align: center;
+    font-size: 0.82rem;
+    color: var(--mid-gray);
+    margin-bottom: 2rem;
+    font-family: 'Noto Serif KR', serif;
+  }
+
+  .compare-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.83rem;
+  }
+
+  .compare-table th {
+    padding: 0.8rem 1rem;
+    text-align: center;
+    font-weight: 500;
+    font-size: 0.78rem;
+    letter-spacing: 0.05em;
+    border-bottom: 2px solid var(--light-gray);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+  }
+
+  .compare-table th.highlight {
+    background: var(--gold-light);
+    border-radius: 12px 12px 0 0;
+  }
+
+  .compare-table td {
+    padding: 0.75rem 1rem;
+    text-align: center;
+    border-bottom: 1px solid var(--light-gray);
+    color: var(--mid-gray);
+    font-family: 'Noto Serif KR', serif;
+    font-weight: 300;
+  }
+
+  .compare-table td:first-child {
+    text-align: left;
+    font-weight: 400;
+    color: var(--charcoal);
+  }
+
+  .compare-table td.highlight { background: rgba(237,217,176,0.15); }
+
+  .check { color: var(--sage); font-size: 1rem; }
+  .cross { color: var(--rose-light); }
+
+  /* FOOTER */
+  footer {
+    background: var(--charcoal);
+    color: rgba(250,246,240,0.5);
+    text-align: center;
+    padding: 2.5rem;
+    font-size: 0.8rem;
+  }
+
+  .footer-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem;
+    color: var(--cream);
+    margin-bottom: 0.4rem;
+  }
+
+  .footer-logo span { color: var(--gold); }
+
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .filter-section { padding: 0 1.5rem 1rem; }
+    .packages { padding: 1rem 1.5rem 4rem; grid-template-columns: 1fr; }
+    .compare-section { padding: 2rem 1rem; overflow-x: auto; }
+    .form-row { grid-template-columns: 1fr; }
+    .modal { padding: 1.8rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">IVY<span>·</span>EL</div>
+  <div class="nav-badge">Elingo Program</div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-tag">수업 신청 · Program Enrollment</div>
+  <h1>나에게 맞는 영어,<br><em>Elingo로 시작해요</em></h1>
+  <p>1회 체험부터 연간 패키지까지 — 목적과 일정에 맞게 선택하세요.<br>성인 · 어린이 모든 과정 온라인/대면 운영.</p>
+</div>
+
+<!-- FILTER -->
+<div class="filter-section">
+  <div class="filter-label">수업 종류</div>
+  <div class="filter-row" id="classFilter">
+    <button class="filter-btn active" data-filter="all">전체</button>
+    <button class="filter-btn" data-filter="bible">📖 성경영어</button>
+    <button class="filter-btn" data-filter="speaking">💬 회화/스피킹</button>
+    <button class="filter-btn" data-filter="writing">✍️ 영어 글쓰기</button>
+    <button class="filter-btn" data-filter="coaching">🌱 영어 코칭</button>
+    <button class="filter-btn" data-filter="kids">🌿 어린이</button>
+  </div>
+  <div class="filter-label">기간</div>
+  <div class="filter-row" id="periodFilter">
+    <button class="filter-btn active" data-period="all">전체</button>
+    <button class="filter-btn" data-period="trial">1회 체험</button>
+    <button class="filter-btn" data-period="monthly">월간</button>
+    <button class="filter-btn" data-period="3month">3개월</button>
+    <button class="filter-btn" data-period="6month">6개월</button>
+    <button class="filter-btn" data-period="yearly">연간</button>
+  </div>
+</div>
+
+<!-- PACKAGES -->
+<div class="packages" id="packageGrid">
+
+  <!-- 1회 체험 -->
+  <div class="pkg-card" data-class="bible" data-period="trial">
+    <div class="pkg-emoji">📖</div>
+    <div class="pkg-type">1회 체험 · Trial</div>
+    <div class="pkg-name">성경영어 체험</div>
+    <p class="pkg-sub">말씀을 영어로 읽는 첫 경험.<br>부담 없이 한 번 들어보세요.</p>
+    <div class="format-badges">
+      <span class="format-badge">온라인</span>
+      <span class="format-badge">소그룹</span>
+      <span class="format-badge">60분</span>
+    </div>
+    <div class="pkg-price-row">
+      <span class="pkg-price">₩15,000</span>
+      <span class="pkg-unit">/ 1회</span>
+    </div>
+    <div class="pkg-divider"></div>
+    <ul class="pkg-includes">
+      <li>성경 영어 맛보기 수업 1회</li>
+      <li>수업 자료 PDF 제공</li>
+      <li>수강 후 Q&A 시간</li>
+    </ul>
+    <button class="pkg-btn outline" onclick="openModal('성경영어 체험 (1회)', '₩15,000')">신청하기</button>
+  </div>
+
+  <div class="pkg-card" data-class="speaking" data-period="trial">
+    <div class="pkg-emoji">💬</div>
+    <div class="pkg-type">1회 체험 · Trial</div>
+    <div class="pkg-name">회화 체험</div>
+    <p class="pkg-sub">영어로 말하는 첫 시간.<br>틀려도 괜찮은 편안한 분위기.</p>
+    <div class="format-badges">
+      <span class="format-badge">온라인/대면</span>
+      <span class="format-badge">1:1</span>
+      <span class="format-badge">50분</span>
+    </div>
+    <div class="pkg-price-row">
+      <span class="pkg-price">₩20,000</span>
+      <span class="pkg-unit">/ 1회</span>
+    </div>
+    <div class="pkg-divider"></div>
+    <ul class="pkg-includes">
+      <li>1:1 회화 체험 수업 1회</li>
+      <li>레벨 진단 + 피드백</li>
+      <li>다음 수업 추천 안내</li>
+    </ul>
+    <button class="pkg-btn outline" onclick="openModal('회화 체험 (1:1)', '₩20,000')">신청하기</button>
+  </div>
+
+  <!-- 월간 -->
+  <div class="pkg-card" data-class="bible" data-period="monthly">
+    <div class="pkg-emoji">📖</div>
+    <div class="pkg-type">월간 구독 · Monthly</div>
+    <div class="pkg-name">성경영어 월정액</div>
+    <p class="pkg-sub">매주 말씀과 함께 영어를 읽고<br>나누는 소그룹 정기 수업.</p>
+    <div class="format-badges">
+      <span class="format-badge">온라인</span>
+      <span class="format-badge">소그룹</span>
+      <span class="format-badge">주 1회</span>
+    </div>
+    <div class="pkg-price-row">
+      <span class="pkg-price">₩89,000</span>
+      <span class="pkg-unit">/ 월</span>
+    </div>
+    <div class="pkg-divider"></div>
+    <ul class="pkg-includes">
+      <li>월 4회 소그룹 수업 (60분)</li>
+      <li>매주 말씀 & 영어 자료 제공</li>
+      <li>카페 커뮤니티 멤버십</li>
+      <li>언제든 취소 가능</li>
+    </ul>
+    <button class="pkg-btn outline" onclick="openModal('성경영어 월정액', '₩89,000/월')">신청하기</button>
+  </div>
+
+  <div class="pkg-card featured" data-class="speaking" data-period="monthly">
+    <div class="pkg-emoji">💬</div>
+    <div class="pkg-type">월간 구독 · Monthly</div>
+    <div class="pkg-name">회화 월정액</div>
+    <p class="pkg-sub">매주 한 번, 꾸준히 말하는 연습.<br>실력보다 자신감이 먼저 생깁니다.</p>
+    <div class="format-badges">
+      <span class="format-badge">온라인/대면</span>
+      <span class="format-badge">1:1</span>
+      <span class="format-badge">주 1회</span>
+    </div>
+    <div class="pkg-price-row">
+      <span class="pkg-price">₩149,000</span>
+      <span class="pkg-unit">/ 월</span>
+    </div>
+    <div class="pkg-divider"></div>
+    <ul class="pkg-includes">
+      <li>월 4회 1:1 수업 (50분)</li>
+      <li>맞춤 피드백 & 복습 자료</li>
+      <li>카톡 질문 채널 (평일)</li>
+      <li>언제든 취소 가능</li>
+    </ul>
+    <button class="pkg-btn gold" onclick="openModal('회화 월정액 (1:1)', '₩149,000/월')">신청하기</button>
+  </div>
+
+  <!-- 3개월 -->
+  <div class="pkg-card" data-class="writing" data-period="3month">
+    <div class="pkg-emoji">✍️</div>
+    <div class="pkg-type">3개월 패키지</div>
+    <div class="pkg-name">영어 글쓰기 과정</div>
+    <p class="pkg-sub">일기부터 에세이까지.<br>3개월 동안 나만의 영어 글쓰기 루틴.</p>
+    <div class="format-badges">
+      <span class="format-badge">온라인</span>
+      <span class="format-badge">소그룹</span>
+      <span class="format-badge">주 1회</span>
+    </div>
+    <div class="pkg-price-row">
+      <span class="pkg-price">₩240,000</span>
+      <span class="pkg-unit">/ 3개월</span>
+    </div>
+    <div class="pkg-original">정가 ₩267,000</div>
+    <ul class="pkg-includes">
+      <li>12회 소그룹 수업 (60분)</li>
+      <li>글쓰기 피드백 & 교정</li>
+      <li>영어 글쓰기 워크북 제공</li>
+      <li>수료증 발급</li>
+    </ul>
+    <button class="pkg-btn primary" onclick="openModal('영어 글쓰기 3개월', '₩240,000')">신청하기</button>
+  </div>
+
+  <div class="pkg-card" data-class="coaching" data-period="3month">
+    <div class="pkg-emoji">🌱</div>
+    <div class="pkg-type">3개월 패키지</div>
+    <div class="pkg-name">영어 코칭 과정</div>
+    <p class="pkg-sub">영어 실력보다 마인드셋부터.<br>자신감과 동기를 함께 키웁니다.</p>
+    <div class="format-badges">
+      <span class="format-badge">온라인</span>
+      <span class="format-badge">1:1</span>
+      <span class="format-badge">격주</span>
+    </div>
+    <div class="pkg-price-row">
+      <span class="pkg-price">₩350,000</span>
+      <span class="pkg-unit">/ 3개월</span>
+    </div>
+    <div class="pkg-original">정가 ₩420,000</div>
+    <ul class="pkg-includes">
+      <li>6회 1:1 코칭 세션 (60분)</li>
+      <li>목표 설정 & 학습 플랜</li>
+      <li>세션 사이 카톡 피드백</li>
+      <li>수료 후 1회 추가 세션</li>
+    </ul>
+    <button class="pkg-btn primary" onclick="openModal('영어 코칭 3개월', '₩350,000')">신청하기</button>
+  </div>
+
+  <!-- 6개월 -->
+  <div class="pkg-card featured" data-class="bible speaking" data-period="6month">
+    <div class="pkg-emoji">✦</div>
+    <div class="pkg-type">6개월 패키지 · Best Value</div>
+    <div class="pkg-name">Elingo 올인원</div>
+    <p class="pkg-sub">성경영어 + 회화를 함께.<br>6개월 동안 확실하게 성장합니다.</p>
+    <div class="format-badges">
+      <span class="format-badge">온라인/대면</span>
+      <span class="format-badge">1:1+소그룹</span>
+      <span class="format-badge">주 2회</span>
+    </div>
+    <div class="pkg-price-row">
+      <span class="pkg-price">₩680,000</span>
+      <span class="pkg-unit">/ 6개월</span>
+    </div>
+    <div class="pkg-original">정가 ₩888,000 → 24% 할인</div>
+    <ul class="pkg-includes">
+      <li>성경영어 소그룹 24회</li>
+      <li>1:1 회화 수업 12회</li>
+      <li>월간 코칭 세션 1회 포함</li>
+      <li>전용 학습 자료 풀패키지</li>
+      <li>카페 멤버십 + 우선 예약</li>
+      <li>수료증 발급</li>
+    </ul>
+    <button class="pkg-btn gold" onclick="openModal('Elingo 올인원 (6개월)', '₩680,000')">신청하기</button>
+  </div>
+
+  <div class="pkg-card kids" data-class="kids" data-period="6month">
+    <div class="pkg-emoji">🌿</div>
+    <div class="pkg-type">6개월 · 어린이</div>
+    <div class="pkg-name">키즈 영어 과정</div>
+    <p class="pkg-sub">즐겁게 시작하는 첫 영어.<br>노래, 스토리, 게임으로 자연스럽게.</p>
+    <div class="format-badges">
+      <span class="format-badge">온라인/대면</span>
+      <span class="format-badge">소그룹</span>
+      <span class="format-badge">주 2회</span>
+    </div>
+    <div class="pkg-price-row">
+      <span class="pkg-price">₩420,000</span>
+      <span class="pkg-unit">/ 6개월</span>
+    </div>
+    <div class="pkg-original">정가 ₩528,000 → 20% 할인</div>
+    <ul class="pkg-includes">
+      <li>주 2회 소그룹 수업 (40분)</li>
+      <li>매월 부모님 진도 리포트</li>
+      <li>어린이 영어 학습 자료</li>
+      <li>분기별 발표 시간</li>
+    </ul>
+    <button class="pkg-btn primary" onclick="openModal('키즈 영어 과정 (6개월)', '₩420,000')">신청하기</button>
+  </div>
+
+  <!-- 연간 -->
+  <div class="pkg-card featured" data-class="bible speaking writing coaching" data-period="yearly">
+    <div class="pkg-emoji">🌟</div>
+    <div class="pkg-type">연간 패키지 · Annual</div>
+    <div class="pkg-name">Elingo Premium</div>
+    <p class="pkg-sub">1년 동안 코치와 함께.<br>영어가 진짜 내 언어가 되는 시간.</p>
+    <div class="format-badges">
+      <span class="format-badge">온라인/대면</span>
+      <span class="format-badge">1:1+소그룹</span>
+      <span class="format-badge">맞춤 설계</span>
+    </div>
+    <div class="pkg-price-row">
+      <span class="pkg-price">₩1,200,000</span>
+      <span class="pkg-unit">/ 연간</span>
+    </div>
+    <div class="pkg-original">정가 ₩1,800,000 → 33% 할인</div>
+    <ul class="pkg-includes">
+      <li>모든 수업 무제한 수강</li>
+      <li>월 2회 1:1 코칭 세션</li>
+      <li>연간 학습 플랜 맞춤 설계</li>
+      <li>카페 VIP 멤버십</li>
+      <li>신규 프로그램 우선 참여</li>
+      <li>팟캐스트 게스트 초청 기회</li>
+      <li>수료증 + 추천서 발급</li>
+    </ul>
+    <button class="pkg-btn gold" onclick="openModal('Elingo Premium (연간)', '₩1,200,000')">신청하기</button>
+  </div>
+
+</div>
+
+<!-- COMPARE TABLE -->
+<div class="compare-section">
+  <h2 class="compare-title">패키지 <em>한눈에 비교</em></h2>
+  <p class="compare-sub">어떤 패키지가 나에게 맞을지 비교해보세요.</p>
+  <div style="overflow-x:auto;">
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th style="text-align:left;">구성</th>
+          <th>1회 체험</th>
+          <th>월간</th>
+          <th>3개월</th>
+          <th class="highlight">6개월 올인원</th>
+          <th>연간 Premium</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>수업 횟수</td>
+          <td>1회</td>
+          <td>월 4회</td>
+          <td>12회</td>
+          <td class="highlight">36회</td>
+          <td>무제한</td>
+        </tr>
+        <tr>
+          <td>1:1 코칭</td>
+          <td><span class="cross">✕</span></td>
+          <td>선택</td>
+          <td><span class="check">✓</span></td>
+          <td class="highlight"><span class="check">✓</span></td>
+          <td><span class="check">✓</span> 월 2회</td>
+        </tr>
+        <tr>
+          <td>카페 멤버십</td>
+          <td><span class="cross">✕</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td class="highlight"><span class="check">✓</span></td>
+          <td><span class="check">✓</span> VIP</td>
+        </tr>
+        <tr>
+          <td>학습 자료</td>
+          <td>기본</td>
+          <td>기본</td>
+          <td>워크북</td>
+          <td class="highlight">풀패키지</td>
+          <td>전체 + 맞춤</td>
+        </tr>
+        <tr>
+          <td>수료증</td>
+          <td><span class="cross">✕</span></td>
+          <td><span class="cross">✕</span></td>
+          <td><span class="check">✓</span></td>
+          <td class="highlight"><span class="check">✓</span></td>
+          <td><span class="check">✓</span> + 추천서</td>
+        </tr>
+        <tr>
+          <td>할인율</td>
+          <td>—</td>
+          <td>—</td>
+          <td>10%</td>
+          <td class="highlight" style="color:var(--gold); font-weight:600;">24%</td>
+          <td style="color:var(--dusty-rose); font-weight:600;">33%</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">IVY<span>·</span>EL</div>
+  <p>Elingo — 영어, 당신의 언어로</p>
+  <p style="margin-top:0.4rem;">© 2025 IVY·EL · 문의: 웹사이트 상담 폼</p>
+</footer>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModalOutside(event)">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">수업 신청</div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-pkg-info">
+      <div class="modal-pkg-name" id="modalPkgName">—</div>
+      <div class="modal-pkg-price" id="modalPkgPrice">—</div>
+    </div>
+    <div class="form-group form-row">
+      <div>
+        <label>이름 *</label>
+        <input type="text" placeholder="홍길동">
+      </div>
+      <div>
+        <label>연락처 *</label>
+        <input type="text" placeholder="010-0000-0000">
+      </div>
+    </div>
+    <div class="form-group">
+      <label>이메일 *</label>
+      <input type="email" placeholder="example@email.com">
+    </div>
+    <div class="form-group">
+      <label>수업 형태</label>
+      <select>
+        <option>온라인 (Zoom)</option>
+        <option>대면</option>
+        <option>둘 다 가능</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>희망 수업 시간대</label>
+      <select>
+        <option>평일 오전 (9–12시)</option>
+        <option>평일 오후 (13–17시)</option>
+        <option>평일 저녁 (18–21시)</option>
+        <option>주말</option>
+        <option>상관없음</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>영어 수준 (자가 평가)</label>
+      <select>
+        <option>입문 (거의 처음)</option>
+        <option>초급 (기초 알고 있음)</option>
+        <option>중급 (일상 대화 가능)</option>
+        <option>중상급 이상</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>남기실 말씀</label>
+      <textarea rows="3" placeholder="수업 목표나 궁금한 점을 편하게 적어주세요."></textarea>
+    </div>
+    <button class="submit-btn" onclick="submitForm()">신청 완료하기</button>
+  </div>
+</div>
+
+<script>
+  // Filter logic
+  let activeClass = 'all';
+  let activePeriod = 'all';
+
+  document.getElementById('classFilter').addEventListener('click', e => {
+    if (!e.target.matches('.filter-btn')) return;
+    document.querySelectorAll('#classFilter .filter-btn').forEach(b => b.classList.remove('active'));
+    e.target.classList.add('active');
+    activeClass = e.target.dataset.filter;
+    filterCards();
+  });
+
+  document.getElementById('periodFilter').addEventListener('click', e => {
+    if (!e.target.matches('.filter-btn')) return;
+    document.querySelectorAll('#periodFilter .filter-btn').forEach(b => b.classList.remove('active'));
+    e.target.classList.add('active');
+    activePeriod = e.target.dataset.period;
+    filterCards();
+  });
+
+  function filterCards() {
+    document.querySelectorAll('.pkg-card').forEach(card => {
+      const cls = card.dataset.class || '';
+      const period = card.dataset.period || '';
+      const classMatch = activeClass === 'all' || cls.includes(activeClass);
+      const periodMatch = activePeriod === 'all' || period === activePeriod;
+      card.style.display = classMatch && periodMatch ? 'flex' : 'none';
+    });
+  }
+
+  // Modal
+  function openModal(name, price) {
+    document.getElementById('modalPkgName').textContent = name;
+    document.getElementById('modalPkgPrice').textContent = price;
+    document.getElementById('modalOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function closeModalOutside(e) {
+    if (e.target === document.getElementById('modalOverlay')) closeModal();
+  }
+
+  function submitForm() {
+    alert('신청이 완료되었습니다! 📩\n1–2일 내로 연락드리겠습니다.');
+    closeModal();
+  }
+</script>
+</body>
+</html>
